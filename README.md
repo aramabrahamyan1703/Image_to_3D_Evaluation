@@ -151,7 +151,7 @@ The full smoke test (`tests/test_pipeline_smoke.py`) additionally needs `pytorch
        --out runs/eval/report.html
    ```
 
-5. **Property-based breakdown** (see *Feedback follow-up* below):
+5. **Property-based breakdown** 
 
    ```bash
    python scripts/slice_by_property.py \
@@ -172,20 +172,6 @@ The full table lives in [`runs/eval/comparison.md`](runs/eval/comparison.md) (ma
 | Silhouette IoU ↑ | 0.104 | **0.271** | 0.119 |
 | LPIPS ↓ | **0.455** | 0.491 | 0.507 |
 | Watertight % ↑ | 0 % | 0 % | **38 %** |
-
-**Each bolded number maps directly to one finding** in the slides — see [`docs/FEEDBACK.md`](docs/FEEDBACK.md) for the metric → conclusion chain.
-
-## Feedback follow-up
-
-The first round of feedback for the presentation flagged four issues. This final submission addresses them as follows:
-
-| Feedback | Where it's addressed |
-|---|---|
-| Slides too text-heavy | `slides/presentation.tex` rewritten — body text is now ≤ 7-word bullets per slide; speaker notes carry the detail. |
-| 3D / NeRF terminology not introduced | New "3D primer" slide defines mesh, NeRF, triplane, view rendering before any method is shown. |
-| Metrics (NC, W, Sil-IoU, …) not introduced | Two dedicated metric-definition slides — every metric used later is defined, with formula + plain-language explanation. |
-| Results → conclusion link unclear | Each result slide pairs a metric with the *specific* conclusion it implies; results table uses arrows ("F@2 % ↑ → InstantMesh wins because diffusion stage recovers occluded surfaces"). |
-| Property-based metric report missing | `scripts/slice_by_property.py` + `data/property_labels.csv` (30-object hand-labelled subset) → per-property breakdown in `runs/eval/by_property.md` and a dedicated slide. |
 
 ## License
 
