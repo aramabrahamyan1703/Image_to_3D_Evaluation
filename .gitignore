@@ -1,0 +1,53 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# --- Virtual envs ---
+.venv/
+venv/
+env/
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- LaTeX build artifacts ---
+slides/*.aux
+slides/*.fdb_latexmk
+slides/*.fls
+slides/*.log
+slides/*.nav
+slides/*.out
+slides/*.snm
+slides/*.synctex.gz
+slides/*.toc
+slides/*.vrb
+slides/_minted-*/
+
+# --- Heavy data / model checkpoints (must be downloaded, not committed) ---
+data/inputs/
+data/meshes/
+data/references/
+*.glb
+*.obj
+*.ply
+*.stl
+*.zip
+
+# --- Per-run renders (regenerable) ---
+runs/**/renders/

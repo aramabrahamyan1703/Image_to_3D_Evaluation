@@ -1,0 +1,6 @@
+image_size: 512
+n_views: 8
+elev: 15.0
+device: auto
+save_renders: false
+use_rembg: true

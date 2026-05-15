@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eval3d"
+version = "0.1.0"
+description = "Evaluation pipeline for single-image 3D reconstruction (TripoSR / InstantMesh / SF3D)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Aram Abrahamyan"}]
+keywords = ["3d-reconstruction", "image-to-3d", "evaluation", "benchmark"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "torch>=2.0",
+    "trimesh>=4.0",
+    "numpy>=1.24",
+    "Pillow>=10.0",
+    "pandas>=2.0",
+    "scikit-image>=0.21",
+    "scipy>=1.10",
+    "lpips>=0.1.4",
+    "open_clip_torch>=2.24",
+    "rembg>=2.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.66",
+]
+
+# pytorch3d must be installed separately (no PyPI wheel for all platforms):
+#   pip install "git+https://github.com/facebookresearch/pytorch3d.git@stable"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+eval3d = "eval3d.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["eval3d*"]

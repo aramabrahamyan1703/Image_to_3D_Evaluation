@@ -1,0 +1,13 @@
+torch>=2.0
+trimesh>=4.0
+numpy>=1.24
+Pillow>=10.0
+pandas>=2.0
+scikit-image>=0.21
+scipy>=1.10
+lpips>=0.1.4
+open_clip_torch>=2.24
+rembg>=2.0
+pyyaml>=6.0
+tqdm>=4.66
+# pytorch3d must be installed separately (see README).

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Image-to-3D Eval — Model Comparison</title>
+<style>
+  :root {
+    --bg: #fafaf8;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --line: #e3e3df;
+    --win-bg: #e8f3e8;
+    --win-fg: #1f6b1f;
+    --accent: #2b5cb0;
+  }
+  * { box-sizing: border-box; }
+  body { font: 14.5px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+         color: var(--fg); background: var(--bg);
+         margin: 0; padding: 32px 40px; max-width: 1100px; }
+  h1 { font-size: 24px; margin: 0 0 6px 0; }
+  h2 { font-size: 16px; margin: 28px 0 12px; color: var(--muted);
+        text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  .lede { color: var(--muted); margin-bottom: 24px; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line);
+            vertical-align: top; }
+  thead th { font-weight: 600; background: #f0f0ec; border-bottom: 2px solid var(--line); }
+  thead th:not(:first-child) { text-align: right; }
+  thead .n { font-weight: normal; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+  td.win { background: var(--win-bg); color: var(--win-fg); font-weight: 600; }
+  tr.grp td { background: #f6f6f2; font-weight: 600; font-size: 12.5px;
+               color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;
+               padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  th.metric { font-weight: 500; }
+  .desc { font-weight: normal; font-size: 12px; color: var(--muted); margin-top: 2px;
+           max-width: 520px; }
+  .arrow { font-size: 11px; padding: 1px 5px; border-radius: 3px; margin-left: 4px;
+            vertical-align: middle; }
+  .arrow.up { background: #e6efe6; color: #1f6b1f; }
+  .arrow.down { background: #f0e6e6; color: #8b1f1f; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 14px; margin: 18px 0 8px; }
+  .card { border: 1px solid var(--line); background: white; border-radius: 8px;
+           padding: 14px 16px; }
+  .card h3 { margin: 0 0 4px; font-size: 16px; color: var(--accent); }
+  .card .tag { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
+  .card .winct { font-size: 12px; color: var(--muted); margin-bottom: 6px;
+                   text-transform: uppercase; letter-spacing: 0.05em; }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card li { font-size: 13px; padding: 1px 0; }
+  footer { color: var(--muted); font-size: 12px; margin-top: 24px;
+            border-top: 1px solid var(--line); padding-top: 12px; }
+</style>
+</head>
+<body>
+  <h1>Image-to-3D Eval — Model Comparison</h1>
+  <p class="lede">100 paired (image, GT-mesh) samples from the Google Scanned Objects subset.
+  Best per row in <span style="background:var(--win-bg);color:var(--win-fg);
+  padding:1px 6px;border-radius:3px;font-weight:600;">green</span>.</p>
+
+  <h2>At a glance</h2>
+  <div class="cards"><div class="card"><h3>triposr</h3><p class="tag">Best perceptual fidelity. Strong geometry. Balanced choice.</p><div class="winct">4 wins</div><ul><li>SSIM</li><li>LPIPS</li><li>Chamfer-L1</li><li>Normal consistency</li></ul></div><div class="card"><h3>sf3d</h3><p class="tag">Best input alignment. Lightest meshes. Weakest GT geometry.</p><div class="winct">4 wins</div><ul><li>PSNR</li><li>CLIP-sim</li><li>Silhouette IoU</li><li>MV consistency</li></ul></div><div class="card"><h3>instantmesh</h3><p class="tag">Best GT geometry. Only watertight outputs. Densest meshes.</p><div class="winct">4 wins</div><ul><li>F-score @ 1%</li><li>F-score @ 2%</li><li>F-score @ 5%</li><li>Watertight %</li></ul></div></div>
+
+  <h2>Full results</h2>
+  <table>
+    <thead><tr><th>Metric</th><th>triposr<div class="n">n = 100</div></th><th>sf3d<div class="n">n = 100</div></th><th>instantmesh<div class="n">n = 100</div></th></tr></thead>
+    <tbody>
+      <tr class="grp"><td colspan="5">Image fidelity (front-view render vs. input image)</td></tr><tr><th class="metric">PSNR <span class="arrow up">↑</span><div class="desc">Peak signal-to-noise ratio between the rendered front view and the input image. Higher = pixels match more closely.</div></th><td class="num ">11.19</td><td class="num win">11.31</td><td class="num ">11.15</td></tr><tr><th class="metric">SSIM <span class="arrow up">↑</span><div class="desc">Structural similarity. Compares luminance, contrast, and structure in local windows. Higher = better.</div></th><td class="num win">0.756</td><td class="num ">0.731</td><td class="num ">0.727</td></tr><tr><th class="metric">LPIPS <span class="arrow down">↓</span><div class="desc">Learned perceptual distance (AlexNet features). Closer to human judgments of similarity. Lower = better.</div></th><td class="num win">0.455</td><td class="num ">0.491</td><td class="num ">0.507</td></tr><tr><th class="metric">CLIP-sim <span class="arrow up">↑</span><div class="desc">Cosine similarity in CLIP image-embedding space. Captures semantic similarity (object identity, category).</div></th><td class="num ">0.706</td><td class="num win">0.708</td><td class="num ">0.680</td></tr><tr class="grp"><td colspan="5">Alignment with input</td></tr><tr><th class="metric">Silhouette IoU <span class="arrow up">↑</span><div class="desc">Intersection-over-Union between the input foreground mask and the rendered front silhouette. Measures how well scale and pose match the input.</div></th><td class="num ">0.104</td><td class="num win">0.271</td><td class="num ">0.119</td></tr><tr class="grp"><td colspan="5">Multi-view consistency</td></tr><tr><th class="metric">MV consistency <span class="arrow up">↑</span><div class="desc">Mean CLIP similarity between rendered views around the object. High = the model looks coherent from all sides (no Janus heads, missing backs).</div></th><td class="num ">0.903</td><td class="num win">0.917</td><td class="num ">0.897</td></tr><tr class="grp"><td colspan="5">Geometric accuracy (vs. ground-truth mesh)</td></tr><tr><th class="metric">Chamfer-L1 <span class="arrow down">↓</span><div class="desc">Mean bidirectional surface-to-surface distance after both meshes are normalized to unit bounding-box diagonal. Lower = closer reconstruction.</div></th><td class="num win">0.1294</td><td class="num ">0.1852</td><td class="num ">0.1323</td></tr><tr><th class="metric">F-score @ 1% <span class="arrow up">↑</span><div class="desc">F1 of precision/recall at threshold τ = 1% of the bbox diagonal. A point is matched if it is within τ of the other surface. Strict tolerance.</div></th><td class="num ">0.134</td><td class="num ">0.084</td><td class="num win">0.152</td></tr><tr><th class="metric">F-score @ 2% <span class="arrow up">↑</span><div class="desc">Same as F@1% but with a moderate tolerance (2% of bbox diagonal).</div></th><td class="num ">0.257</td><td class="num ">0.166</td><td class="num win">0.275</td></tr><tr><th class="metric">F-score @ 5% <span class="arrow up">↑</span><div class="desc">Lenient tolerance (5% of bbox diagonal). Captures coarse shape agreement.</div></th><td class="num ">0.520</td><td class="num ">0.365</td><td class="num win">0.521</td></tr><tr><th class="metric">Normal consistency <span class="arrow up">↑</span><div class="desc">Mean |cos| between matched face normals (both directions). High = surface orientations agree, not just positions.</div></th><td class="num win">0.642</td><td class="num ">0.526</td><td class="num ">0.627</td></tr><tr class="grp"><td colspan="5">Mesh quality</td></tr><tr><th class="metric">Mean #faces <div class="desc">Average triangle count. More faces = denser mesh, higher download/render cost; not necessarily better quality.</div></th><td class="num ">130,405</td><td class="num ">26,774</td><td class="num ">446,948</td></tr><tr><th class="metric">Watertight % <span class="arrow up">↑</span><div class="desc">Fraction of meshes that are closed manifolds (no holes, no boundary edges). Required for volume, fluid sim, 3D printing.</div></th><td class="num ">0%</td><td class="num ">0%</td><td class="num win">38%</td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    ↑ = higher is better; ↓ = lower is better.
+    F-score thresholds are fractions of the unit bounding-box diagonal (both meshes are
+    centered and rescaled to unit diagonal before sampling).
+    Reference metrics use 30k–50k surface samples per mesh.
+  </footer>
+</body>
+</html>
